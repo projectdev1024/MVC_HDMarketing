@@ -1,0 +1,85 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var accept = WebsiteMVC.Models.LoginHelper.CheckRole(WebsiteMVC.Models.eRole.ADMIN);
+}
+
+<div class="panel panel-info ">
+    <div class="panel-heading">
+        <div class="caption">
+            <i class="fa fa-edit"></i>@ViewBag.Title
+        </div>
+    </div>
+    <div class="panel-body">
+        @if (accept)
+        {
+            <div class="table-toolbar">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="btn-group">
+                            <p>
+                                <a href="@Url.Action("Edit")" class="btn btn-primary">
+                                    Thêm <i class="fa fa-plus"></i>
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        @RenderBody()
+
+    </div>
+</div>
+
+@if (accept)
+{
+
+    <link href="~/Content/theme/assets/datatables/media/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="~/Content/theme/assets/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="~/Content/theme/assets/datatables/plugins/bootstrap/dataTables.bootstrap.js"></script>
+
+    <script>
+        //$("table").DataTable({
+        //    //'rowsGroup': [0]
+        //});
+
+        function delete_object(target, id) {
+            if (confirm("Bạn có muốn xóa không?")) {
+                $.ajax({
+                    url: "@Url.Action("Delete")",
+                    type: "POST",
+                    data: { id: id },
+                    success: function (d) {
+                        if (d) {
+                            $(target).closest("tr").remove();
+                        } else {
+                            alert("Xóa thất bại");
+                        }
+                    }
+                })
+            }
+        }
+
+        function active(id) {
+            if (confirm("Bạn có muốn Active/Disable không?")) {
+                $.ajax({
+                    url: "@Url.Action("Active")",
+                    type: "POST",
+                    data: { id: id },
+                    success: function (d) {
+                        if (d) {
+                            window.location.reload();
+                        } else {
+                            alert("Thất bại");
+                        }
+                    },
+                    error: function(){
+                        alert("Lỗi");
+}
+                })
+            }
+        }
+    </script>
+
+}

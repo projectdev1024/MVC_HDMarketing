@@ -1,0 +1,45 @@
+﻿@model IEnumerable<WebsiteMVC.Models.TaiLieu>
+
+<table class="table table-bordered" id="table">
+    <tr>
+        <th>
+            Tài liệu
+        </th>
+        <th>
+            Ngày cập nhật
+        </th>
+        <th>
+            Mô tả
+        </th>
+        <th>
+            Người cập nhật
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenTaiLieu)
+                @if (string.IsNullOrWhiteSpace(item.File) == false)
+                {
+                    <a href="@item.File" download title="tải xuống"><i class="fa fa-download"></i></a>
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayTao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MoTa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TaiKhoan.Username)
+            </td>
+            <td>
+                <a href="@Url.Action("Edit","TaiLieu",new { id = item.IDTaiLieu})" class="btn btn-primary" title="Sửa"><i class="fa fa-pencil"></i></a>
+                <span onclick="delete_tl(this,'@item.IDTaiLieu')" class="btn btn-warning" title="Xóa"><i class="fa fa-trash-o"></i></span>
+            </td>
+        </tr>
+    }
+</table>

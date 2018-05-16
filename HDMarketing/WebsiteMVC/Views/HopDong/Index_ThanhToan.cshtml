@@ -1,0 +1,35 @@
+﻿@model IEnumerable<WebsiteMVC.Models.ThanhToan>
+
+<table class="table table-bordered" id="table">
+    <tr>
+        <th>
+            Ngày thanh toán
+        </th>
+        <th>
+            Số tiền
+        </th>
+        <th>
+            Người cập nhật
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @(item.NgayTT?.ToString("dd/MM/yyyy"))
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SoTien)
+            </td>
+            <td>
+                @(item.TaiKhoan?.FullName)
+            </td>
+            @*<td>
+                <a href="@Url.Action("Edit","ThanhToan",new { id = item.IDThanhToan})" class="btn btn-primary" title="Sửa"><i class="fa fa-pencil"></i></a>
+                <span onclick="delete_tt(this,'@item.IDThanhToan')" class="btn btn-warning" title="Xóa"><i class="fa fa-trash-o"></i></span>
+            </td>*@
+        </tr>
+    }
+
+</table>

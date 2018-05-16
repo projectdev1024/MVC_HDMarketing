@@ -1,0 +1,191 @@
+﻿@model IEnumerable<WebsiteMVC.Models.HopDong>
+
+@{
+    ViewBag.Title = "HỢP ĐỒNG";
+    Layout = "~/Views/Shared/_Layout_Index.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-md-3">
+            <div class="input-group">
+                <span class="input-group-addon">TỪ NGÀY</span>
+                <input type="date" name="sfromDate" value="@(ViewBag.fromDate)" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="input-group">
+                <span class="input-group-addon">ĐẾN NGÀY</span>
+                <input type="date" name="stoDate" value="@(ViewBag.toDate)" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-addon">LOẠI HD</span>
+                @Html.DropDownList("IDLoaiHD", ViewBag.IDLoaiHDs as SelectList, "---Tất cả loại HD---", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            <button class=" btn btn-success"><i class="fa fa-filter"></i> Lọc</button>
+        </div>
+    </div>
+}
+<hr />
+<p>
+    <ul>
+        @foreach (var item in Model.GroupBy(q => q.LoaiHD))
+        {
+            <li>@item.Key.TenLoaiHD : @item.Count() HD</li>
+        }
+    </ul>
+</p>
+<table class="table table-bordered" id="table">
+    <thead>
+        <tr>
+            <th>
+                Hợp đồng
+            </th>
+            <th>
+                Loại HD
+            </th>
+            <th>
+                Đã thanh toán / Giá trị HD
+            </th>
+            <th>
+                Nội dung
+            </th>
+            <th>
+                Ngày kí kết
+            </th>
+            <th>
+                Hạn HD
+            </th>
+            <th>
+                Người phụ trách
+            </th>
+            <th>
+                Công ty
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            string style = (item.DaThanhToan >= item.ChiPhi) ? "success" : "";
+            string btn = (item.DaThanhToan >= item.ChiPhi) ? "btn-success" : "btn-default";
+            <tr class="@style">
+                <td rowspan="3">
+                    <p>
+                        <active onclick="active(@item.IDHopDong)" class="@((item.Active == 1).ToString())"></active>
+                        <b> @Html.DisplayFor(modelItem => item.MaHopDong)</b>
+                        @if (item.DaThanhToan >= item.ChiPhi)
+                        {
+                            <label class="label label-success">Hoàn tất thanh toán</label>
+                        }
+                    </p>
+                    <p>
+                        <a href="@Url.Action("Edit",new { id = item.IDHopDong})" class="btn btn-primary" title="Sửa"><i class="fa fa-pencil"></i></a>
+                        <span onclick="delete_object(this,'@item.IDHopDong')" class="btn btn-warning" title="Xóa"><i class="fa fa-trash-o"></i></span>
+                        <span class="btn @btn" onclick="$('#tt_@item.IDHopDong').toggle()"><i class="fa fa-eye"></i> Thanh toán (@Math.Round((item.DaThanhToan / item.ChiPhi * 100) ?? 0, 2)%)</span>
+                        <span class="btn btn-info" onclick="$('#tl_@item.IDHopDong').toggle()"><i class="fa fa-eye"></i> Tài liệu (@item.TaiLieux.Count())</span>
+                    </p>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LoaiHD.MaLoaiHD)
+                </td>
+                <td>
+                    @item.DaThanhToan.Display()/@item.ChiPhi.Display() (@Math.Round(((item.DaThanhToan / item.ChiPhi) ?? 0) * 100)%)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NoiDung)
+                </td>
+                <td>
+                    @item.NgayKy.Display("dd/MM/yyyy")
+                </td>
+                <td>
+                    @item.HanHD.Display("dd/MM/yyyy")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TaiKhoan.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.KhachHang.CongTy)
+                </td>
+            </tr>
+
+            <tr class="@style">
+                <td colspan="8" id="tt_@item.IDHopDong" style="display: none">
+                    <div>
+                        <p>
+                            @if (item.Active == 10 || item.DaThanhToan >= item.ChiPhi)
+                            {
+                                <b>Hoàn tất thanh toán</b>
+                            }
+                            else if (item.Active == 1)
+                            {
+                                <b> THANH TOÁN </b>
+                                <a href="@Url.Action("Edit","ThanhToan",new { item.IDHopDong})" class="btn btn-primary">
+                                    Thêm <i class="fa fa-plus"></i>
+                                </a>
+                            }
+                        </p>
+                        @Html.Partial("Index_ThanhToan", item.ThanhToans)
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="@style">
+                <td colspan="8" id="tl_@item.IDHopDong" style="display: none">
+                    <div>
+                        <p>
+                            <b> TÀI LIỆU </b>
+                            <a href="@Url.Action("Edit","TaiLieu",new { item.IDHopDong})" class="btn btn-primary">
+                                Thêm <i class="fa fa-plus"></i>
+                            </a>
+                        </p>
+                        @Html.Partial("Index_TaiLieu", item.TaiLieux)
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+
+function delete_tt(target, id) {
+    if (confirm("Bạn có muốn xóa không?")) {
+        $.ajax({
+            url: "@Url.Action("Delete", "ThanhToan")",
+            type: "POST",
+            data: { id: id },
+            success: function (d) {
+                if (d) {
+                    $(target).closest("tr").remove();
+                } else {
+                    alert("Xóa thất bại");
+                }
+            }
+        })
+    }
+}
+
+function delete_tl(target, id) {
+if (confirm("Bạn có muốn xóa không?")) {
+    $.ajax({
+        url: "@Url.Action("Delete","TaiLieu")",
+        type: "POST",
+        data: { id: id },
+        success: function (d) {
+            if (d) {
+                $(target).closest("tr").remove();
+            } else {
+                alert("Xóa thất bại");
+            }
+        }
+    })
+}
+}
+</script>

@@ -1,0 +1,58 @@
+﻿@model WebsiteMVC.Models.TaiLieu
+
+@{
+    ViewBag.Title = "TÀI LIỆU";
+    Layout = "~/Views/Shared/_Layout_Edit.cshtml";
+}
+
+@using (Html.BeginFormMultipart())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.IDTaiLieu)
+        @Html.HiddenFor(model => model.NgayTao)
+        @Html.HiddenFor(model => model.NguoiTao)
+        @Html.HiddenFor(model => model.File)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IDHopDong, "Hợp đồng", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListForRequired(q => q.IDHopDong, ViewBag.IDHopDongs as SelectList)
+                @Html.ValidationMessageFor(model => model.IDHopDong, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TenTaiLieu, "Tên tài liệu", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TenTaiLieu, new { htmlAttributes = new { @class = "form-control" } }).Required()
+                @Html.ValidationMessageFor(model => model.TenTaiLieu, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.File, "Tập tin đính kèm", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <p><a href="@Model.File"><i class="fa fa-download"></i> Tải xuống</a></p>
+                <label>@Html.TextBoxFor(model => model.File, new { @class = "form-control" }).Type(htmlType.file) Thay thế</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MoTa, "Mô tả", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MoTa, new { htmlAttributes = new { @class = "form-control" } }).Required()
+                @Html.ValidationMessageFor(model => model.MoTa, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Lưu" class="btn green" />
+                <a href="@Url.Action("Index","HopDong")" class="btn btn-default"><i class="fa fa-arrow-circle-o-left"></i> QUAY LẠI DANH SÁCH</a>
+            </div>
+        </div>
+    </div>
+}

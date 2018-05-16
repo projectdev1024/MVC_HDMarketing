@@ -1,0 +1,62 @@
+﻿@model IEnumerable<WebsiteMVC.Models.TaiKhoan>
+
+@{
+    ViewBag.Title = "DANH SÁCH TÀI KHOẢN";
+    Layout = "~/Views/Shared/_Layout_Index.cshtml";
+}
+
+<table class="table table-bordered" id="table">
+    <thead>
+        <tr>
+            <th>
+                HỌ TÊN
+            </th>
+            <th>
+                ẢNH
+            </th>
+            <th>
+                TÊN ĐĂNG NHẬP
+            </th>
+            <th>
+                SDT
+            </th>
+            <th>
+                EMAIL
+            </th>
+            <th>
+                CHỨC VỤ
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <active onclick="active(@item.IDTaiKhoan)" class="@((item.Active == 1).ToString())"></active>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    <img src="@item.Avatar" style="max-height: 30px" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Username)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ChucVu)
+                </td>
+                <td>
+                    <a href="@Url.Action("Edit",new { id = item.IDTaiKhoan})" class="btn btn-primary" title="Sửa"><i class="fa fa-pencil"></i></a>
+                    <span onclick="delete_object(this,'@item.IDTaiKhoan')" class="btn btn-warning" title="Xóa"><i class="fa fa-trash-o"></i></span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

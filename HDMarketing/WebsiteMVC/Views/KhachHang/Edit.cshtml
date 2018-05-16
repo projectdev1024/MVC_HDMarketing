@@ -1,0 +1,99 @@
+﻿@model WebsiteMVC.Models.KhachHang
+
+@{
+    ViewBag.Title = "KHÁCH HÀNG";
+    Layout = "~/Views/Shared/_Layout_Edit.cshtml";
+}
+
+@using (Html.BeginFormMultipart())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.IDKhachHang)
+        @Html.HiddenFor(model => model.Active)
+        @Html.HiddenFor(model => model.Logo)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CongTy, "Công ty (*)", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CongTy, new { htmlAttributes = new { @class = "form-control" } }).Required()
+                @Html.ValidationMessageFor(model => model.CongTy, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NguoiDaiDien, "Người đại diện (*)", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NguoiDaiDien, new { htmlAttributes = new { @class = "form-control" } }).Required()
+                @Html.ValidationMessageFor(model => model.NguoiDaiDien, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SDTLienHe, "SDT liên hệ (*)", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SDTLienHe, new { htmlAttributes = new { @class = "form-control" } }).Required()
+                @Html.ValidationMessageFor(model => model.SDTLienHe, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DiaChi, "Địa chỉ (*)", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DiaChi, new { htmlAttributes = new { @class = "form-control" } }).Required()
+                @Html.ValidationMessageFor(model => model.DiaChi, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, "Email (*)", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } }).Required().Type(htmlType.email)
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SDTCTy, "SDT công ty", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SDTCTy, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SDTCTy, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MSThue, "Mã số thuế", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MSThue, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.MSThue, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Logo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <p><img src="@Model.Logo" /></p>
+                @Html.TextBoxFor(model => model.Logo, new { @class = "form-control" }).Type(htmlType.file)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.GhiChu, "Ghi chú", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.GhiChu, new { @class = "form-control", Rows = "6" })
+                @Html.ValidationMessageFor(model => model.GhiChu, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Lưu" class="btn green" />
+                <a href="@Url.Action("Index")" class="btn btn-default"><i class="fa fa-arrow-circle-o-left"></i> QUAY LẠI DANH SÁCH</a>
+            </div>
+        </div>
+    </div>
+}

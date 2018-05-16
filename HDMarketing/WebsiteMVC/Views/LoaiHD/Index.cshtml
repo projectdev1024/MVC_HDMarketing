@@ -1,0 +1,37 @@
+﻿@model IEnumerable<WebsiteMVC.Models.LoaiHD>
+
+@{
+    ViewBag.Title = "LOẠI HỢP ĐỒNG";
+    Layout = "~/Views/Shared/_Layout_Index.cshtml";
+}
+
+
+<table class="table table-bordered" id="table">
+    <tr>
+        <th>
+            Loại HD
+        </th>
+        <th>
+            Mô tả ngắn
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <active onclick="active(@item.IDLoaiHD)" class="@((item.Active == 1).ToString())"></active>
+                @Html.DisplayFor(modelItem => item.TenLoaiHD)
+                (#@item.MaLoaiHD)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mota)
+            </td>
+            <td>
+                <a href="@Url.Action("Edit",new { id = item.IDLoaiHD})" class="btn btn-primary" title="Sửa"><i class="fa fa-pencil"></i></a>
+                <span onclick="delete_object(this,'@item.IDLoaiHD')" class="btn btn-warning" title="Xóa"><i class="fa fa-trash-o"></i></span>
+            </td>
+        </tr>
+    }
+</table>

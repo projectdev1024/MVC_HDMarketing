@@ -1,0 +1,583 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="HDMarketingModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="HopDong">
+          <Key>
+            <PropertyRef Name="IDHopDong" />
+          </Key>
+          <Property Name="IDHopDong" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaHopDong" Type="nvarchar" MaxLength="50" />
+          <Property Name="NgayTao" Type="datetime" />
+          <Property Name="NguoiTao" Type="int" />
+          <Property Name="IDKhachHang" Type="int" />
+          <Property Name="IDLoaiHD" Type="int" />
+          <Property Name="Active" Type="tinyint" />
+          <Property Name="ChiPhi" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="DaThanhToan" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="NgayKy" Type="date" />
+          <Property Name="NoiDung" Type="nvarchar(max)" />
+          <Property Name="HanHD" Type="date" />
+          <Property Name="NguoiPhuTrach" Type="int" />
+        </EntityType>
+        <EntityType Name="KhachHang">
+          <Key>
+            <PropertyRef Name="IDKhachHang" />
+          </Key>
+          <Property Name="IDKhachHang" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CongTy" Type="nvarchar" MaxLength="50" />
+          <Property Name="NguoiDaiDien" Type="nvarchar" MaxLength="50" />
+          <Property Name="DiaChi" Type="nvarchar" MaxLength="50" />
+          <Property Name="SDTCTy" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="Active" Type="tinyint" />
+          <Property Name="MSThue" Type="nvarchar" MaxLength="50" />
+          <Property Name="SDTLienHe" Type="nvarchar" MaxLength="50" />
+          <Property Name="Logo" Type="nvarchar" MaxLength="500" />
+          <Property Name="GhiChu" Type="nvarchar" MaxLength="2000" />
+        </EntityType>
+        <EntityType Name="LoaiHD">
+          <Key>
+            <PropertyRef Name="IDLoaiHD" />
+          </Key>
+          <Property Name="IDLoaiHD" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaLoaiHD" Type="nvarchar" MaxLength="50" />
+          <Property Name="TenLoaiHD" Type="nvarchar" MaxLength="50" />
+          <Property Name="Active" Type="tinyint" />
+          <Property Name="Mota" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="TaiKhoan">
+          <Key>
+            <PropertyRef Name="IDTaiKhoan" />
+          </Key>
+          <Property Name="IDTaiKhoan" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" />
+          <Property Name="Avatar" Type="nvarchar" MaxLength="500" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Birthday" Type="date" />
+          <Property Name="Adress" Type="nvarchar" MaxLength="50" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="ChucVu" Type="nvarchar" MaxLength="50" />
+          <Property Name="Active" Type="tinyint" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="TaiLieu">
+          <Key>
+            <PropertyRef Name="IDTaiLieu" />
+          </Key>
+          <Property Name="IDTaiLieu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TenTaiLieu" Type="nvarchar" MaxLength="500" />
+          <Property Name="IDHopDong" Type="int" />
+          <Property Name="NgayTao" Type="datetime" />
+          <Property Name="NguoiTao" Type="int" />
+          <Property Name="MoTa" Type="nvarchar" MaxLength="2000" />
+          <Property Name="File" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="ThanhToan">
+          <Key>
+            <PropertyRef Name="IDThanhToan" />
+          </Key>
+          <Property Name="IDThanhToan" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NgayTT" Type="date" />
+          <Property Name="NguoiTao" Type="int" />
+          <Property Name="SoTien" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="IDHopDong" Type="int" />
+        </EntityType>
+        <Association Name="FK_HopDong_KhachHang">
+          <End Role="KhachHang" Type="Self.KhachHang" Multiplicity="0..1" />
+          <End Role="HopDong" Type="Self.HopDong" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KhachHang">
+              <PropertyRef Name="IDKhachHang" />
+            </Principal>
+            <Dependent Role="HopDong">
+              <PropertyRef Name="IDKhachHang" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HopDong_LoaiHD">
+          <End Role="LoaiHD" Type="Self.LoaiHD" Multiplicity="0..1" />
+          <End Role="HopDong" Type="Self.HopDong" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LoaiHD">
+              <PropertyRef Name="IDLoaiHD" />
+            </Principal>
+            <Dependent Role="HopDong">
+              <PropertyRef Name="IDLoaiHD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HopDong_TaiKhoan">
+          <End Role="TaiKhoan" Type="Self.TaiKhoan" Multiplicity="0..1" />
+          <End Role="HopDong" Type="Self.HopDong" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaiKhoan">
+              <PropertyRef Name="IDTaiKhoan" />
+            </Principal>
+            <Dependent Role="HopDong">
+              <PropertyRef Name="NguoiTao" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaiLieu_HopDong">
+          <End Role="HopDong" Type="Self.HopDong" Multiplicity="0..1" />
+          <End Role="TaiLieu" Type="Self.TaiLieu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HopDong">
+              <PropertyRef Name="IDHopDong" />
+            </Principal>
+            <Dependent Role="TaiLieu">
+              <PropertyRef Name="IDHopDong" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaiLieu_TaiKhoan">
+          <End Role="TaiKhoan" Type="Self.TaiKhoan" Multiplicity="0..1" />
+          <End Role="TaiLieu" Type="Self.TaiLieu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaiKhoan">
+              <PropertyRef Name="IDTaiKhoan" />
+            </Principal>
+            <Dependent Role="TaiLieu">
+              <PropertyRef Name="NguoiTao" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ThanhToan_HopDong">
+          <End Role="HopDong" Type="Self.HopDong" Multiplicity="0..1" />
+          <End Role="ThanhToan" Type="Self.ThanhToan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HopDong">
+              <PropertyRef Name="IDHopDong" />
+            </Principal>
+            <Dependent Role="ThanhToan">
+              <PropertyRef Name="IDHopDong" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ThanhToan_TaiKhoan">
+          <End Role="TaiKhoan" Type="Self.TaiKhoan" Multiplicity="0..1" />
+          <End Role="ThanhToan" Type="Self.ThanhToan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaiKhoan">
+              <PropertyRef Name="IDTaiKhoan" />
+            </Principal>
+            <Dependent Role="ThanhToan">
+              <PropertyRef Name="NguoiTao" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HDMarketingModelStoreContainer">
+          <EntitySet Name="HopDong" EntityType="Self.HopDong" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KhachHang" EntityType="Self.KhachHang" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LoaiHD" EntityType="Self.LoaiHD" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TaiKhoan" EntityType="Self.TaiKhoan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TaiLieu" EntityType="Self.TaiLieu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ThanhToan" EntityType="Self.ThanhToan" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_HopDong_KhachHang" Association="Self.FK_HopDong_KhachHang">
+            <End Role="KhachHang" EntitySet="KhachHang" />
+            <End Role="HopDong" EntitySet="HopDong" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HopDong_LoaiHD" Association="Self.FK_HopDong_LoaiHD">
+            <End Role="LoaiHD" EntitySet="LoaiHD" />
+            <End Role="HopDong" EntitySet="HopDong" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HopDong_TaiKhoan" Association="Self.FK_HopDong_TaiKhoan">
+            <End Role="TaiKhoan" EntitySet="TaiKhoan" />
+            <End Role="HopDong" EntitySet="HopDong" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaiLieu_HopDong" Association="Self.FK_TaiLieu_HopDong">
+            <End Role="HopDong" EntitySet="HopDong" />
+            <End Role="TaiLieu" EntitySet="TaiLieu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaiLieu_TaiKhoan" Association="Self.FK_TaiLieu_TaiKhoan">
+            <End Role="TaiKhoan" EntitySet="TaiKhoan" />
+            <End Role="TaiLieu" EntitySet="TaiLieu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ThanhToan_HopDong" Association="Self.FK_ThanhToan_HopDong">
+            <End Role="HopDong" EntitySet="HopDong" />
+            <End Role="ThanhToan" EntitySet="ThanhToan" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ThanhToan_TaiKhoan" Association="Self.FK_ThanhToan_TaiKhoan">
+            <End Role="TaiKhoan" EntitySet="TaiKhoan" />
+            <End Role="ThanhToan" EntitySet="ThanhToan" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HDMarketingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="HDMarketingEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="HopDongs" EntityType="HDMarketingModel.HopDong" />
+          <EntitySet Name="KhachHangs" EntityType="HDMarketingModel.KhachHang" />
+          <EntitySet Name="LoaiHDs" EntityType="HDMarketingModel.LoaiHD" />
+          <EntitySet Name="sysdiagrams" EntityType="HDMarketingModel.sysdiagram" />
+          <EntitySet Name="TaiKhoans" EntityType="HDMarketingModel.TaiKhoan" />
+          <EntitySet Name="TaiLieux" EntityType="HDMarketingModel.TaiLieu" />
+          <EntitySet Name="ThanhToans" EntityType="HDMarketingModel.ThanhToan" />
+          <AssociationSet Name="FK_HopDong_KhachHang" Association="HDMarketingModel.FK_HopDong_KhachHang">
+            <End Role="KhachHang" EntitySet="KhachHangs" />
+            <End Role="HopDong" EntitySet="HopDongs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HopDong_LoaiHD" Association="HDMarketingModel.FK_HopDong_LoaiHD">
+            <End Role="LoaiHD" EntitySet="LoaiHDs" />
+            <End Role="HopDong" EntitySet="HopDongs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HopDong_TaiKhoan" Association="HDMarketingModel.FK_HopDong_TaiKhoan">
+            <End Role="TaiKhoan" EntitySet="TaiKhoans" />
+            <End Role="HopDong" EntitySet="HopDongs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaiLieu_HopDong" Association="HDMarketingModel.FK_TaiLieu_HopDong">
+            <End Role="HopDong" EntitySet="HopDongs" />
+            <End Role="TaiLieu" EntitySet="TaiLieux" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ThanhToan_HopDong" Association="HDMarketingModel.FK_ThanhToan_HopDong">
+            <End Role="HopDong" EntitySet="HopDongs" />
+            <End Role="ThanhToan" EntitySet="ThanhToans" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaiLieu_TaiKhoan" Association="HDMarketingModel.FK_TaiLieu_TaiKhoan">
+            <End Role="TaiKhoan" EntitySet="TaiKhoans" />
+            <End Role="TaiLieu" EntitySet="TaiLieux" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ThanhToan_TaiKhoan" Association="HDMarketingModel.FK_ThanhToan_TaiKhoan">
+            <End Role="TaiKhoan" EntitySet="TaiKhoans" />
+            <End Role="ThanhToan" EntitySet="ThanhToans" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="HopDong">
+          <Key>
+            <PropertyRef Name="IDHopDong" />
+          </Key>
+          <Property Name="IDHopDong" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaHopDong" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NgayTao" Type="DateTime" Precision="3" />
+          <Property Name="NguoiTao" Type="Int32" />
+          <Property Name="IDKhachHang" Type="Int32" />
+          <Property Name="IDLoaiHD" Type="Int32" />
+          <Property Name="Active" Type="Byte" />
+          <Property Name="ChiPhi" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="DaThanhToan" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="NgayKy" Type="DateTime" Precision="0" />
+          <Property Name="NoiDung" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="HanHD" Type="DateTime" Precision="0" />
+          <Property Name="NguoiPhuTrach" Type="Int32" />
+          <NavigationProperty Name="KhachHang" Relationship="HDMarketingModel.FK_HopDong_KhachHang" FromRole="HopDong" ToRole="KhachHang" />
+          <NavigationProperty Name="LoaiHD" Relationship="HDMarketingModel.FK_HopDong_LoaiHD" FromRole="HopDong" ToRole="LoaiHD" />
+          <NavigationProperty Name="TaiKhoan" Relationship="HDMarketingModel.FK_HopDong_TaiKhoan" FromRole="HopDong" ToRole="TaiKhoan" />
+          <NavigationProperty Name="TaiLieux" Relationship="HDMarketingModel.FK_TaiLieu_HopDong" FromRole="HopDong" ToRole="TaiLieu" />
+          <NavigationProperty Name="ThanhToans" Relationship="HDMarketingModel.FK_ThanhToan_HopDong" FromRole="HopDong" ToRole="ThanhToan" />
+        </EntityType>
+        <EntityType Name="KhachHang">
+          <Key>
+            <PropertyRef Name="IDKhachHang" />
+          </Key>
+          <Property Name="IDKhachHang" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CongTy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NguoiDaiDien" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DiaChi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SDTCTy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Active" Type="Byte" />
+          <Property Name="MSThue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SDTLienHe" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Logo" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="GhiChu" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="HopDongs" Relationship="HDMarketingModel.FK_HopDong_KhachHang" FromRole="KhachHang" ToRole="HopDong" />
+        </EntityType>
+        <EntityType Name="LoaiHD">
+          <Key>
+            <PropertyRef Name="IDLoaiHD" />
+          </Key>
+          <Property Name="IDLoaiHD" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaLoaiHD" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TenLoaiHD" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Active" Type="Byte" />
+          <Property Name="Mota" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="HopDongs" Relationship="HDMarketingModel.FK_HopDong_LoaiHD" FromRole="LoaiHD" ToRole="HopDong" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TaiKhoan">
+          <Key>
+            <PropertyRef Name="IDTaiKhoan" />
+          </Key>
+          <Property Name="IDTaiKhoan" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Avatar" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="FullName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Birthday" Type="DateTime" Precision="0" />
+          <Property Name="Adress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ChucVu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Active" Type="Byte" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="HopDongs" Relationship="HDMarketingModel.FK_HopDong_TaiKhoan" FromRole="TaiKhoan" ToRole="HopDong" />
+          <NavigationProperty Name="TaiLieux" Relationship="HDMarketingModel.FK_TaiLieu_TaiKhoan" FromRole="TaiKhoan" ToRole="TaiLieu" />
+          <NavigationProperty Name="ThanhToans" Relationship="HDMarketingModel.FK_ThanhToan_TaiKhoan" FromRole="TaiKhoan" ToRole="ThanhToan" />
+        </EntityType>
+        <EntityType Name="TaiLieu">
+          <Key>
+            <PropertyRef Name="IDTaiLieu" />
+          </Key>
+          <Property Name="IDTaiLieu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TenTaiLieu" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IDHopDong" Type="Int32" />
+          <Property Name="NgayTao" Type="DateTime" Precision="3" />
+          <Property Name="NguoiTao" Type="Int32" />
+          <Property Name="MoTa" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="File" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="HopDong" Relationship="HDMarketingModel.FK_TaiLieu_HopDong" FromRole="TaiLieu" ToRole="HopDong" />
+          <NavigationProperty Name="TaiKhoan" Relationship="HDMarketingModel.FK_TaiLieu_TaiKhoan" FromRole="TaiLieu" ToRole="TaiKhoan" />
+        </EntityType>
+        <EntityType Name="ThanhToan">
+          <Key>
+            <PropertyRef Name="IDThanhToan" />
+          </Key>
+          <Property Name="IDThanhToan" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NgayTT" Type="DateTime" Precision="0" />
+          <Property Name="NguoiTao" Type="Int32" />
+          <Property Name="SoTien" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="IDHopDong" Type="Int32" />
+          <NavigationProperty Name="HopDong" Relationship="HDMarketingModel.FK_ThanhToan_HopDong" FromRole="ThanhToan" ToRole="HopDong" />
+          <NavigationProperty Name="TaiKhoan" Relationship="HDMarketingModel.FK_ThanhToan_TaiKhoan" FromRole="ThanhToan" ToRole="TaiKhoan" />
+        </EntityType>
+        <Association Name="FK_HopDong_KhachHang">
+          <End Type="HDMarketingModel.KhachHang" Role="KhachHang" Multiplicity="0..1" />
+          <End Type="HDMarketingModel.HopDong" Role="HopDong" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KhachHang">
+              <PropertyRef Name="IDKhachHang" />
+            </Principal>
+            <Dependent Role="HopDong">
+              <PropertyRef Name="IDKhachHang" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HopDong_LoaiHD">
+          <End Type="HDMarketingModel.LoaiHD" Role="LoaiHD" Multiplicity="0..1" />
+          <End Type="HDMarketingModel.HopDong" Role="HopDong" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LoaiHD">
+              <PropertyRef Name="IDLoaiHD" />
+            </Principal>
+            <Dependent Role="HopDong">
+              <PropertyRef Name="IDLoaiHD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HopDong_TaiKhoan">
+          <End Type="HDMarketingModel.TaiKhoan" Role="TaiKhoan" Multiplicity="0..1" />
+          <End Type="HDMarketingModel.HopDong" Role="HopDong" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaiKhoan">
+              <PropertyRef Name="IDTaiKhoan" />
+            </Principal>
+            <Dependent Role="HopDong">
+              <PropertyRef Name="NguoiTao" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaiLieu_HopDong">
+          <End Type="HDMarketingModel.HopDong" Role="HopDong" Multiplicity="0..1" />
+          <End Type="HDMarketingModel.TaiLieu" Role="TaiLieu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HopDong">
+              <PropertyRef Name="IDHopDong" />
+            </Principal>
+            <Dependent Role="TaiLieu">
+              <PropertyRef Name="IDHopDong" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ThanhToan_HopDong">
+          <End Type="HDMarketingModel.HopDong" Role="HopDong" Multiplicity="0..1" />
+          <End Type="HDMarketingModel.ThanhToan" Role="ThanhToan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HopDong">
+              <PropertyRef Name="IDHopDong" />
+            </Principal>
+            <Dependent Role="ThanhToan">
+              <PropertyRef Name="IDHopDong" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaiLieu_TaiKhoan">
+          <End Type="HDMarketingModel.TaiKhoan" Role="TaiKhoan" Multiplicity="0..1" />
+          <End Type="HDMarketingModel.TaiLieu" Role="TaiLieu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaiKhoan">
+              <PropertyRef Name="IDTaiKhoan" />
+            </Principal>
+            <Dependent Role="TaiLieu">
+              <PropertyRef Name="NguoiTao" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ThanhToan_TaiKhoan">
+          <End Type="HDMarketingModel.TaiKhoan" Role="TaiKhoan" Multiplicity="0..1" />
+          <End Type="HDMarketingModel.ThanhToan" Role="ThanhToan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaiKhoan">
+              <PropertyRef Name="IDTaiKhoan" />
+            </Principal>
+            <Dependent Role="ThanhToan">
+              <PropertyRef Name="NguoiTao" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HDMarketingModelStoreContainer" CdmEntityContainer="HDMarketingEntities">
+          <EntitySetMapping Name="HopDongs">
+            <EntityTypeMapping TypeName="HDMarketingModel.HopDong">
+              <MappingFragment StoreEntitySet="HopDong">
+                <ScalarProperty Name="NguoiPhuTrach" ColumnName="NguoiPhuTrach" />
+                <ScalarProperty Name="HanHD" ColumnName="HanHD" />
+                <ScalarProperty Name="NoiDung" ColumnName="NoiDung" />
+                <ScalarProperty Name="NgayKy" ColumnName="NgayKy" />
+                <ScalarProperty Name="DaThanhToan" ColumnName="DaThanhToan" />
+                <ScalarProperty Name="ChiPhi" ColumnName="ChiPhi" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="IDLoaiHD" ColumnName="IDLoaiHD" />
+                <ScalarProperty Name="IDKhachHang" ColumnName="IDKhachHang" />
+                <ScalarProperty Name="NguoiTao" ColumnName="NguoiTao" />
+                <ScalarProperty Name="NgayTao" ColumnName="NgayTao" />
+                <ScalarProperty Name="MaHopDong" ColumnName="MaHopDong" />
+                <ScalarProperty Name="IDHopDong" ColumnName="IDHopDong" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KhachHangs">
+            <EntityTypeMapping TypeName="HDMarketingModel.KhachHang">
+              <MappingFragment StoreEntitySet="KhachHang">
+                <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
+                <ScalarProperty Name="Logo" ColumnName="Logo" />
+                <ScalarProperty Name="SDTLienHe" ColumnName="SDTLienHe" />
+                <ScalarProperty Name="MSThue" ColumnName="MSThue" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="SDTCTy" ColumnName="SDTCTy" />
+                <ScalarProperty Name="DiaChi" ColumnName="DiaChi" />
+                <ScalarProperty Name="NguoiDaiDien" ColumnName="NguoiDaiDien" />
+                <ScalarProperty Name="CongTy" ColumnName="CongTy" />
+                <ScalarProperty Name="IDKhachHang" ColumnName="IDKhachHang" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LoaiHDs">
+            <EntityTypeMapping TypeName="HDMarketingModel.LoaiHD">
+              <MappingFragment StoreEntitySet="LoaiHD">
+                <ScalarProperty Name="Mota" ColumnName="Mota" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="TenLoaiHD" ColumnName="TenLoaiHD" />
+                <ScalarProperty Name="MaLoaiHD" ColumnName="MaLoaiHD" />
+                <ScalarProperty Name="IDLoaiHD" ColumnName="IDLoaiHD" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="HDMarketingModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TaiKhoans">
+            <EntityTypeMapping TypeName="HDMarketingModel.TaiKhoan">
+              <MappingFragment StoreEntitySet="TaiKhoan">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="ChucVu" ColumnName="ChucVu" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Adress" ColumnName="Adress" />
+                <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Avatar" ColumnName="Avatar" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="IDTaiKhoan" ColumnName="IDTaiKhoan" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TaiLieux">
+            <EntityTypeMapping TypeName="HDMarketingModel.TaiLieu">
+              <MappingFragment StoreEntitySet="TaiLieu">
+                <ScalarProperty Name="File" ColumnName="File" />
+                <ScalarProperty Name="MoTa" ColumnName="MoTa" />
+                <ScalarProperty Name="NguoiTao" ColumnName="NguoiTao" />
+                <ScalarProperty Name="NgayTao" ColumnName="NgayTao" />
+                <ScalarProperty Name="IDHopDong" ColumnName="IDHopDong" />
+                <ScalarProperty Name="TenTaiLieu" ColumnName="TenTaiLieu" />
+                <ScalarProperty Name="IDTaiLieu" ColumnName="IDTaiLieu" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ThanhToans">
+            <EntityTypeMapping TypeName="HDMarketingModel.ThanhToan">
+              <MappingFragment StoreEntitySet="ThanhToan">
+                <ScalarProperty Name="IDHopDong" ColumnName="IDHopDong" />
+                <ScalarProperty Name="SoTien" ColumnName="SoTien" />
+                <ScalarProperty Name="NguoiTao" ColumnName="NguoiTao" />
+                <ScalarProperty Name="NgayTT" ColumnName="NgayTT" />
+                <ScalarProperty Name="IDThanhToan" ColumnName="IDThanhToan" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
