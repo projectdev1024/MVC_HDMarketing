@@ -40,6 +40,7 @@
         }
     </ul>
 </p>
+
 <table class="table table-bordered" id="table">
     <thead>
         <tr>
@@ -52,6 +53,7 @@
             <th>
                 Đã thanh toán / Giá trị HD
             </th>
+            <th>Còn nợ</th>
             <th>
                 Nội dung
             </th>
@@ -73,7 +75,15 @@
     <tbody>
         @foreach (var item in Model)
         {
-            string style = (item.DaThanhToan >= item.ChiPhi) ? "success" : "";
+            string style = "";
+            if (item.DaThanhToan >= item.ChiPhi)
+            {
+                style = "success";
+            }
+            else if (item.HanHD < DateTime.Now) //hết hạn
+            {
+                style = "fail";
+            }
             string btn = (item.DaThanhToan >= item.ChiPhi) ? "btn-success" : "btn-default";
             <tr class="@style">
                 <td rowspan="3">
@@ -82,7 +92,8 @@
                         <b> @Html.DisplayFor(modelItem => item.MaHopDong)</b>
                         @if (item.DaThanhToan >= item.ChiPhi)
                         {
-                            <label class="label label-success">Hoàn tất thanh toán</label>
+                            <label class="label label-success">Hoàn tất thanh toán </label>
+                            <b  style="border: 1px #ffc800 solid; font-size: 15px; margin: 3px"> @item.Rate <i class="fa fa-star" style="color: #ffc800"></i></b>
                         }
                     </p>
                     <p>
@@ -98,6 +109,7 @@
                 <td>
                     @item.DaThanhToan.Display()/@item.ChiPhi.Display() (@Math.Round(((item.DaThanhToan / item.ChiPhi) ?? 0) * 100)%)
                 </td>
+                <td>@((item.ChiPhi - item.DaThanhToan).Display()) VND</td>
                 <td>
                     @Html.DisplayFor(modelItem => item.NoiDung)
                 </td>
@@ -116,7 +128,7 @@
             </tr>
 
             <tr class="@style">
-                <td colspan="8" id="tt_@item.IDHopDong" style="display: none">
+                <td colspan="9" id="tt_@item.IDHopDong" style="display: none">
                     <div>
                         <p>
                             @if (item.Active == 10 || item.DaThanhToan >= item.ChiPhi)
@@ -137,7 +149,7 @@
             </tr>
 
             <tr class="@style">
-                <td colspan="8" id="tl_@item.IDHopDong" style="display: none">
+                <td colspan="9" id="tl_@item.IDHopDong" style="display: none">
                     <div>
                         <p>
                             <b> TÀI LIỆU </b>
@@ -152,6 +164,12 @@
         }
     </tbody>
 </table>
+
+<style>
+    .fail {
+        background-color: #ffafaf;
+    }
+</style>
 
 <script>
 

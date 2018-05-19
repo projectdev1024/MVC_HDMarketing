@@ -20,7 +20,7 @@ namespace WebsiteMVC.Controllers
         {
             var fromDate = sfromDate.ToDate();
             var toDate = stoDate.ToDate();
-            if(sfromDate == null)
+            if (sfromDate == null)
             {
                 fromDate = toDate.AddMonths(-1);
             }
@@ -34,6 +34,30 @@ namespace WebsiteMVC.Controllers
             ViewBag.IDLoaiHDs = db.LoaiHDs.OrderBy(q => q.TenLoaiHD).CreateSelectList(q => q.IDLoaiHD, q => q.TenLoaiHD, IDLoaiHD);
 
             return View(lst.ToList());
+        }
+
+        public ActionResult Rate(int? id)
+        {
+            var obj = db.HopDongs.Find(id);
+            if (obj == null || obj.ChiPhi < obj.DaThanhToan)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(obj);
+        }
+
+        [HttpPost]
+        public ActionResult Rate(int id, byte? ratedv = 1, byte? ratenv = 1)
+        {
+            var obj = dbSet.Find(id);
+            if (obj != null)
+            {
+                obj.Rate = ratedv;
+                obj.TaiKhoan.Rate = (byte)((obj.TaiKhoan.Rate * obj.TaiKhoan.SoHD + ratenv) / (obj.TaiKhoan.SoHD + 1));
+                obj.TaiKhoan.SoHD++;
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index");
         }
 
         public ActionResult Edit(int? id)
@@ -63,6 +87,8 @@ namespace WebsiteMVC.Controllers
                 else
                 {
                     obj.Active = 1;
+                    obj.Rate = 0;
+                    obj.DaThanhToan = 0;
                     dbSet.Add(obj);
                 }
                 db.SaveChanges();

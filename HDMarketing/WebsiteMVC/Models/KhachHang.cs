@@ -31,8 +31,12 @@ namespace WebsiteMVC.Models
         public string SDTLienHe { get; set; }
         public string Logo { get; set; }
         public string GhiChu { get; set; }
+        public Nullable<int> SoDichVu { get; set; }
+        public Nullable<decimal> SoTien { get; set; }
+        public Nullable<int> IDTienNang { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HopDong> HopDongs { get; set; }
+        public virtual TiemNang TiemNang { get; set; }
     }
 }

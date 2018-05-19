@@ -22,6 +22,7 @@
           <Property Name="NoiDung" Type="nvarchar(max)" />
           <Property Name="HanHD" Type="date" />
           <Property Name="NguoiPhuTrach" Type="int" />
+          <Property Name="Rate" Type="int" />
         </EntityType>
         <EntityType Name="KhachHang">
           <Key>
@@ -38,6 +39,9 @@
           <Property Name="SDTLienHe" Type="nvarchar" MaxLength="50" />
           <Property Name="Logo" Type="nvarchar" MaxLength="500" />
           <Property Name="GhiChu" Type="nvarchar" MaxLength="2000" />
+          <Property Name="SoDichVu" Type="int" />
+          <Property Name="SoTien" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="IDTienNang" Type="int" />
         </EntityType>
         <EntityType Name="LoaiHD">
           <Key>
@@ -75,6 +79,8 @@
           <Property Name="ChucVu" Type="nvarchar" MaxLength="50" />
           <Property Name="Active" Type="tinyint" />
           <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Rate" Type="tinyint" />
+          <Property Name="SoHD" Type="int" />
         </EntityType>
         <EntityType Name="TaiLieu">
           <Key>
@@ -97,6 +103,16 @@
           <Property Name="NguoiTao" Type="int" />
           <Property Name="SoTien" Type="decimal" Precision="18" Scale="0" />
           <Property Name="IDHopDong" Type="int" />
+        </EntityType>
+        <EntityType Name="TiemNang">
+          <Key>
+            <PropertyRef Name="IDTiemNang" />
+          </Key>
+          <Property Name="IDTiemNang" Type="int" Nullable="false" />
+          <Property Name="Rate" Type="tinyint" />
+          <Property Name="TenTiemNang" Type="nvarchar" MaxLength="50" />
+          <Property Name="State" Type="tinyint" />
+          <Property Name="SoTienDaTra" Type="decimal" Precision="18" Scale="0" />
         </EntityType>
         <Association Name="FK_HopDong_KhachHang">
           <End Role="KhachHang" Type="Self.KhachHang" Multiplicity="0..1" />
@@ -131,6 +147,18 @@
             </Principal>
             <Dependent Role="HopDong">
               <PropertyRef Name="NguoiTao" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KhachHang_TiemNang">
+          <End Role="TiemNang" Type="Self.TiemNang" Multiplicity="0..1" />
+          <End Role="KhachHang" Type="Self.KhachHang" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TiemNang">
+              <PropertyRef Name="IDTiemNang" />
+            </Principal>
+            <Dependent Role="KhachHang">
+              <PropertyRef Name="IDTienNang" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -190,6 +218,7 @@
           <EntitySet Name="TaiKhoan" EntityType="Self.TaiKhoan" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaiLieu" EntityType="Self.TaiLieu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ThanhToan" EntityType="Self.ThanhToan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TiemNang" EntityType="Self.TiemNang" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_HopDong_KhachHang" Association="Self.FK_HopDong_KhachHang">
             <End Role="KhachHang" EntitySet="KhachHang" />
             <End Role="HopDong" EntitySet="HopDong" />
@@ -201,6 +230,10 @@
           <AssociationSet Name="FK_HopDong_TaiKhoan" Association="Self.FK_HopDong_TaiKhoan">
             <End Role="TaiKhoan" EntitySet="TaiKhoan" />
             <End Role="HopDong" EntitySet="HopDong" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KhachHang_TiemNang" Association="Self.FK_KhachHang_TiemNang">
+            <End Role="TiemNang" EntitySet="TiemNang" />
+            <End Role="KhachHang" EntitySet="KhachHang" />
           </AssociationSet>
           <AssociationSet Name="FK_TaiLieu_HopDong" Association="Self.FK_TaiLieu_HopDong">
             <End Role="HopDong" EntitySet="HopDong" />
@@ -231,6 +264,7 @@
           <EntitySet Name="TaiKhoans" EntityType="HDMarketingModel.TaiKhoan" />
           <EntitySet Name="TaiLieux" EntityType="HDMarketingModel.TaiLieu" />
           <EntitySet Name="ThanhToans" EntityType="HDMarketingModel.ThanhToan" />
+          <EntitySet Name="TiemNangs" EntityType="HDMarketingModel.TiemNang" />
           <AssociationSet Name="FK_HopDong_KhachHang" Association="HDMarketingModel.FK_HopDong_KhachHang">
             <End Role="KhachHang" EntitySet="KhachHangs" />
             <End Role="HopDong" EntitySet="HopDongs" />
@@ -250,6 +284,10 @@
           <AssociationSet Name="FK_ThanhToan_HopDong" Association="HDMarketingModel.FK_ThanhToan_HopDong">
             <End Role="HopDong" EntitySet="HopDongs" />
             <End Role="ThanhToan" EntitySet="ThanhToans" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KhachHang_TiemNang" Association="HDMarketingModel.FK_KhachHang_TiemNang">
+            <End Role="TiemNang" EntitySet="TiemNangs" />
+            <End Role="KhachHang" EntitySet="KhachHangs" />
           </AssociationSet>
           <AssociationSet Name="FK_TaiLieu_TaiKhoan" Association="HDMarketingModel.FK_TaiLieu_TaiKhoan">
             <End Role="TaiKhoan" EntitySet="TaiKhoans" />
@@ -277,6 +315,7 @@
           <Property Name="NoiDung" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="HanHD" Type="DateTime" Precision="0" />
           <Property Name="NguoiPhuTrach" Type="Int32" />
+          <Property Name="Rate" Type="Int32" />
           <NavigationProperty Name="KhachHang" Relationship="HDMarketingModel.FK_HopDong_KhachHang" FromRole="HopDong" ToRole="KhachHang" />
           <NavigationProperty Name="LoaiHD" Relationship="HDMarketingModel.FK_HopDong_LoaiHD" FromRole="HopDong" ToRole="LoaiHD" />
           <NavigationProperty Name="TaiKhoan" Relationship="HDMarketingModel.FK_HopDong_TaiKhoan" FromRole="HopDong" ToRole="TaiKhoan" />
@@ -298,7 +337,11 @@
           <Property Name="SDTLienHe" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Logo" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="GhiChu" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="SoDichVu" Type="Int32" />
+          <Property Name="SoTien" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="IDTienNang" Type="Int32" />
           <NavigationProperty Name="HopDongs" Relationship="HDMarketingModel.FK_HopDong_KhachHang" FromRole="KhachHang" ToRole="HopDong" />
+          <NavigationProperty Name="TiemNang" Relationship="HDMarketingModel.FK_KhachHang_TiemNang" FromRole="KhachHang" ToRole="TiemNang" />
         </EntityType>
         <EntityType Name="LoaiHD">
           <Key>
@@ -337,6 +380,8 @@
           <Property Name="ChucVu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Active" Type="Byte" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Rate" Type="Byte" />
+          <Property Name="SoHD" Type="Int32" />
           <NavigationProperty Name="HopDongs" Relationship="HDMarketingModel.FK_HopDong_TaiKhoan" FromRole="TaiKhoan" ToRole="HopDong" />
           <NavigationProperty Name="TaiLieux" Relationship="HDMarketingModel.FK_TaiLieu_TaiKhoan" FromRole="TaiKhoan" ToRole="TaiLieu" />
           <NavigationProperty Name="ThanhToans" Relationship="HDMarketingModel.FK_ThanhToan_TaiKhoan" FromRole="TaiKhoan" ToRole="ThanhToan" />
@@ -366,6 +411,17 @@
           <Property Name="IDHopDong" Type="Int32" />
           <NavigationProperty Name="HopDong" Relationship="HDMarketingModel.FK_ThanhToan_HopDong" FromRole="ThanhToan" ToRole="HopDong" />
           <NavigationProperty Name="TaiKhoan" Relationship="HDMarketingModel.FK_ThanhToan_TaiKhoan" FromRole="ThanhToan" ToRole="TaiKhoan" />
+        </EntityType>
+        <EntityType Name="TiemNang">
+          <Key>
+            <PropertyRef Name="IDTiemNang" />
+          </Key>
+          <Property Name="IDTiemNang" Type="Int32" Nullable="false" />
+          <Property Name="Rate" Type="Byte" />
+          <Property Name="TenTiemNang" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="Byte" />
+          <Property Name="SoTienDaTra" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="KhachHangs" Relationship="HDMarketingModel.FK_KhachHang_TiemNang" FromRole="TiemNang" ToRole="KhachHang" />
         </EntityType>
         <Association Name="FK_HopDong_KhachHang">
           <End Type="HDMarketingModel.KhachHang" Role="KhachHang" Multiplicity="0..1" />
@@ -427,6 +483,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_KhachHang_TiemNang">
+          <End Type="HDMarketingModel.TiemNang" Role="TiemNang" Multiplicity="0..1" />
+          <End Type="HDMarketingModel.KhachHang" Role="KhachHang" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TiemNang">
+              <PropertyRef Name="IDTiemNang" />
+            </Principal>
+            <Dependent Role="KhachHang">
+              <PropertyRef Name="IDTienNang" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_TaiLieu_TaiKhoan">
           <End Type="HDMarketingModel.TaiKhoan" Role="TaiKhoan" Multiplicity="0..1" />
           <End Type="HDMarketingModel.TaiLieu" Role="TaiLieu" Multiplicity="*" />
@@ -460,6 +528,7 @@
           <EntitySetMapping Name="HopDongs">
             <EntityTypeMapping TypeName="HDMarketingModel.HopDong">
               <MappingFragment StoreEntitySet="HopDong">
+                <ScalarProperty Name="Rate" ColumnName="Rate" />
                 <ScalarProperty Name="NguoiPhuTrach" ColumnName="NguoiPhuTrach" />
                 <ScalarProperty Name="HanHD" ColumnName="HanHD" />
                 <ScalarProperty Name="NoiDung" ColumnName="NoiDung" />
@@ -479,6 +548,9 @@
           <EntitySetMapping Name="KhachHangs">
             <EntityTypeMapping TypeName="HDMarketingModel.KhachHang">
               <MappingFragment StoreEntitySet="KhachHang">
+                <ScalarProperty Name="IDTienNang" ColumnName="IDTienNang" />
+                <ScalarProperty Name="SoTien" ColumnName="SoTien" />
+                <ScalarProperty Name="SoDichVu" ColumnName="SoDichVu" />
                 <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
                 <ScalarProperty Name="Logo" ColumnName="Logo" />
                 <ScalarProperty Name="SDTLienHe" ColumnName="SDTLienHe" />
@@ -518,6 +590,8 @@
           <EntitySetMapping Name="TaiKhoans">
             <EntityTypeMapping TypeName="HDMarketingModel.TaiKhoan">
               <MappingFragment StoreEntitySet="TaiKhoan">
+                <ScalarProperty Name="SoHD" ColumnName="SoHD" />
+                <ScalarProperty Name="Rate" ColumnName="Rate" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Active" ColumnName="Active" />
                 <ScalarProperty Name="ChucVu" ColumnName="ChucVu" />
@@ -554,6 +628,17 @@
                 <ScalarProperty Name="NguoiTao" ColumnName="NguoiTao" />
                 <ScalarProperty Name="NgayTT" ColumnName="NgayTT" />
                 <ScalarProperty Name="IDThanhToan" ColumnName="IDThanhToan" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TiemNangs">
+            <EntityTypeMapping TypeName="HDMarketingModel.TiemNang">
+              <MappingFragment StoreEntitySet="TiemNang">
+                <ScalarProperty Name="SoTienDaTra" ColumnName="SoTienDaTra" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="TenTiemNang" ColumnName="TenTiemNang" />
+                <ScalarProperty Name="Rate" ColumnName="Rate" />
+                <ScalarProperty Name="IDTiemNang" ColumnName="IDTiemNang" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

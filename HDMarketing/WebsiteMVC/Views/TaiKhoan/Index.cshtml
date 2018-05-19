@@ -36,6 +36,7 @@
                 <td>
                     <active onclick="active(@item.IDTaiKhoan)" class="@((item.Active == 1).ToString())"></active>
                     @Html.DisplayFor(modelItem => item.FullName)
+                    <b style="border: 1px #ffc800 solid">@item.Rate <i class="fa fa-star" style="color: #ffc800"></i></b>
                 </td>
                 <td>
                     <img src="@item.Avatar" style="max-height: 30px" />

@@ -20,7 +20,7 @@
                 @(item.NgayTT?.ToString("dd/MM/yyyy"))
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SoTien)
+                @item.SoTien.Display() VND
             </td>
             <td>
                 @(item.TaiKhoan?.FullName)

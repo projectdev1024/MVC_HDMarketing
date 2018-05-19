@@ -84,6 +84,8 @@ namespace WebsiteMVC.Controllers
                 else
                 {
                     obj.Active = 1;
+                    obj.Rate = 0;
+                    obj.SoHD = 0;
                     db.TaiKhoans.Add(obj);
                 }
                 db.SaveChanges();

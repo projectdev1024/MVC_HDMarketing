@@ -34,6 +34,7 @@ namespace WebsiteMVC.Models
         public string NoiDung { get; set; }
         public Nullable<System.DateTime> HanHD { get; set; }
         public Nullable<int> NguoiPhuTrach { get; set; }
+        public Nullable<int> Rate { get; set; }
     
         public virtual KhachHang KhachHang { get; set; }
         public virtual LoaiHD LoaiHD { get; set; }

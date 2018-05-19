@@ -34,6 +34,8 @@ namespace WebsiteMVC.Models
         public string ChucVu { get; set; }
         public Nullable<byte> Active { get; set; }
         public string Description { get; set; }
+        public Nullable<byte> Rate { get; set; }
+        public Nullable<int> SoHD { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HopDong> HopDongs { get; set; }

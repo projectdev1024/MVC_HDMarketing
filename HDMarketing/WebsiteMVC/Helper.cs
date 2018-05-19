@@ -41,6 +41,10 @@ namespace WebsiteMVC
             return htmlHelper.DropDownListFor(expression, selectList, "--Vui lòng chọn--", new { @class = "form-control", required = "true" });
         }
 
+        public static string Display(this object value, string format = "#,###")
+        {
+            return string.Format("{0:" + format + "}", value);
+        }
     }
 
     public enum htmlType

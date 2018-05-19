@@ -24,7 +24,12 @@ namespace WebsiteMVC.Controllers
 
         public ActionResult Edit(int? id, int? IDHopDong)
         {
-            var obj = id > 0 ? dbSet.Find(id) : new ThanhToan() { IDHopDong = IDHopDong, NgayTT = DateTime.Now };
+            var obj = id > 0 ? dbSet.Find(id) : new ThanhToan()
+            {
+                IDHopDong = IDHopDong,
+                HopDong = db.HopDongs.Find(IDHopDong),
+                NgayTT = DateTime.Now,
+            };
             if (obj == null)
             {
                 return HttpNotFound();
@@ -51,11 +56,12 @@ namespace WebsiteMVC.Controllers
                 {
                     var hd = db.HopDongs.Find(obj.IDHopDong);
                     hd.DaThanhToan = (hd.DaThanhToan ?? 0) + obj.SoTien;
+                    db.SaveChanges();
                     if (hd.DaThanhToan == hd.ChiPhi)
                     {
                         hd.Active = 10;
+                        return RedirectToAction("Rate", "HopDong", new { id = hd.IDHopDong });
                     }
-                    db.SaveChanges();
                 }
                 return RedirectToAction("Index", "HopDong");
             }

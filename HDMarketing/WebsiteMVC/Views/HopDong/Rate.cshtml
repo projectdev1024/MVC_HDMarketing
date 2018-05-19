@@ -1,0 +1,57 @@
+﻿@model  WebsiteMVC.Models.HopDong
+
+@{
+    ViewBag.Title = "Rate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var max = 5;
+}
+
+@using (Html.BeginForm())
+{
+    <div style="text-align: center; font-size: 20px">
+        <p>CẢM ƠN <b>@Model.KhachHang.CongTy</b> đã tin dùng dịch vụ, để nâng cao chất lượng dịch vụ, mong quý khách đánh giá chất lượng dịch vụ của chúng tôi!</p>
+        <hr />
+        <ol style="list-style-type: none">
+            <li>
+                <h2>1. Chất lượng Dịch vụ</h2>
+                <table style="width: 40%; margin-left: 30%">
+                    <tr>
+                        @for (int i = 1; i <= max; i++)
+                        {
+                            <td>
+                                <label>
+                                    <input class="rate" type="radio" name="ratedv" value="@i" />@i
+                                    <i class="fa fa-star" style="color: #ffc800"></i>
+                                </label>
+                            </td>
+                        }
+                    </tr>
+                </table>
+                <hr />
+            </li>
+            <li>
+                <h2>2. Chất lượng nhân viên</h2>
+                <table style="width: 40%; margin-left: 30%">
+                    <tr>
+                        @for (int i = 1; i <= max; i++)
+                        {
+                            <td>
+                                <label>
+                                    <input class="rate" type="radio" name="ratenv" value="@i" />@i
+                                    <i class="fa fa-star" style="color: #ffc800"></i>
+                                </label>
+                            </td>
+                        }
+                    </tr>
+                </table>
+                <hr />
+            </li>
+        </ol>
+
+        <button class="btn btn-success">Gửi</button>
+    </div>
+}
+
+<script>
+    $('[class="rate"][value="@max"]').each(function (index, element) { element.checked = true; });
+</script>
