@@ -3,22 +3,19 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@using (Html.BeginForm())
-{
-    <div class="col-md-4">
-        <div class="input-group">
-            <span class="input-group-addon">Từ ngày</span>
-            <input type="date" name="stimeStart" value="@ViewBag.fromDate" class="form-control" />
-        </div>
+<div class="col-md-4">
+    <div class="input-group">
+        <span class="input-group-addon">Từ ngày</span>
+        <input type="date" name="stimeStart" value="@ViewBag.fromDate" class="form-control" />
     </div>
-    <div class="col-md-4">
-        <div class="input-group">
-            <span class="input-group-addon">Đến ngày</span>
-            <input type="date" name="stimeEnd" value="@ViewBag.toDate" class="form-control" />
-        </div>
+</div>
+<div class="col-md-4">
+    <div class="input-group">
+        <span class="input-group-addon">Đến ngày</span>
+        <input type="date" name="stimeEnd" value="@ViewBag.toDate" class="form-control" />
     </div>
-    <button class="btn" onclick="load()">Xem</button>
-}
+</div>
+<button class="btn" onclick="load()">Xem</button>
 <hr />
 
 <!-- Styles -->
@@ -43,12 +40,19 @@
     var chart = {};
 
     function load() {
+        let data = {
+            sfromDate: $('[name="stimeStart"]').val(),
+            stoDate: $('[name="stimeEnd"]').val(),
+        };
+
+        if (new Date(data.sfromDate) > new Date(data.stoDate)) {
+            alert("Vui lòng chọn ngày hợp lệ");
+            return false;
+        }
+
         $.ajax({
             url: '@Url.Action("GetData")',
-            data: {
-                sfromDate: $('[name="stimeStart"]').val(),
-                stoDate: $('[name="stimeEnd"]').val(),
-            },
+            data: data,
             type: 'POST',
             success: function (d) {
             chartData = [];
@@ -145,7 +149,5 @@
             <th>Chi tiết</th>
         </tr>
     </thead>
-    <tbody id="tbody">
-        
-    </tbody>
+    <tbody id="tbody"></tbody>
 </table>
